@@ -1,0 +1,74 @@
+# Notepad
+The Notepad app from developer Yassin doesn't use AI and This is the project has used a save system in a text editor . 
+# Experience Addtion .
+
+storge_node = []
+while_open = True
+
+# First step: read old notes from the file and store them in the list
+try:
+    with open("data_notepad.txt", "r", encoding="utf-8") as f:
+        content = f.read().strip()
+        if content:  # if the file is not empty
+            storge_node = eval(content)  # convert text back into a list
+except (FileNotFoundError, SyntaxError):
+    storge_node = []  # if the file doesn't exist or has invalid data
+
+print("""
+Welcome My App Developer : Yassen 
+
+Write New Note => 1
+Show Old Notes => 2
+Select Remove => 3
+Remove Notes => 4
+Exit App => 5
+""")
+
+def save_list():
+    """Function to save the entire list into the file"""
+    with open("data_notepad.txt", "w", encoding="utf-8") as f:  
+        # Open the file in write mode ("w") so it overwrites old content
+        f.write(str(storge_node))  
+        # Convert the list into a string (e.g., ['a','b']) and save it into the file
+
+def select_remove():
+    User_select_remove = int(input("Enter Your Delete Number Note Please : "))
+    User_select_remove -= 1
+    storge_node.remove(storge_node[User_select_remove])
+    print(f"{User_select_remove} Is Remove Done . ")
+
+
+def Clear_All():
+    storge_node.clear()  # Clear the list
+    save_list()          # Save the empty list into the file
+    print("All Notes Deleted Successfully")
+
+def Write_New_Note():
+    User_write_Node = input("Enter Your Note Please : ")
+    storge_node.append(User_write_Node)  # Add the new note to the list
+    save_list()                          # Save the updated list into the file
+    print("Process Is Done")
+
+def Show_Note_Old():
+    if storge_node:
+        for i, show in enumerate(storge_node, start=1):
+            print(f"{i} => {show}")
+    else:
+        print("No Notes Saved Yet")
+
+while while_open:
+    User_Need = input("Enter Your Choice Please : ")
+
+    if User_Need == "1":
+        Write_New_Note()
+    elif User_Need == "2":
+        Show_Note_Old()
+    elif User_Need == "3":
+        select_remove()
+    elif User_Need == "4":
+        Clear_All()
+    elif User_Need == "5":
+        print("Thank You For Using My App")
+        while_open = False
+    else:
+        continue
